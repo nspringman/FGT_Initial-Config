@@ -3,9 +3,9 @@ from getpass import getpass
 import random
 import string
 import csv
+import sys
 
 
-ip = "192.168.1.99"
 
 #Netmiko will not accept a variable. This needs to be resolved. 
 net_connect = Netmiko(
@@ -15,18 +15,6 @@ net_connect = Netmiko(
     device_type="fortinet",
 )
 
-
-
-
-
-key = ''.join([random.choice(string.ascii_letters + string.digits ) for n in range(30)])
-
-print(key)
-
-with open('key.csv', 'a') as f:
-    
-    csv_writer = csv.writer(f)
-    csv_writer.writerow([ip, key])
 
 
 print(net_connect.find_prompt())
@@ -47,10 +35,11 @@ output = net_connect.send_command('set utmgrp read-write')
 output = net_connect.send_command('set endpoint-control-grp read-write')
 output = net_connect.send_command('set wifi read-write')
 output = net_connect.send_command('end')
+
 output = net_connect.send_command('config system api-user')
 output = net_connect.send_command('edit api-admin')
 output = net_connect.send_command('set accprofile "readWrite"')
-output = net_connect.send_command('set api-key %(key)')
+output = net_connect.send_command('set api-key RaSzoz68vMGesyaIYTtJrhbpbvf4da')
 output = net_connect.send_command('api-key')
 output = net_connect.send_command('config trusthost')
 output = net_connect.send_command('edit 1')
@@ -68,9 +57,9 @@ output = net_connect.send_command('end')
 output = net_connect.send_command('end')
 
 
-
+output = net_connect.send_command('execute api-user generate-key api-admin')
 
 print(output)
 
-
 net_connect.disconnect()
+
