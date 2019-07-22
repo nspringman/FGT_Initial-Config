@@ -15,12 +15,6 @@ net_connect = Netmiko(
     device_type="fortinet",
 )
 
-
-
-# print(net_connect.find_prompt())
-#
-# net_connect.set_base_prompt('#')
-# net_connect.auto_find_prompt = False
 def fgt_command(command):
     return net_connect.send_command(command, expect_string='#')
 
